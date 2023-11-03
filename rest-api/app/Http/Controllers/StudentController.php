@@ -11,6 +11,13 @@ class StudentController extends Controller
         //mendapatkan semua data siswa
         $students = Student::all();
 
+        if ($students->isEmpty()) {
+            $data = [
+                "message"=> "Resource is empety"
+            ];
+            return response()->json($data, 204);
+        }
+
         $data = [
             "message"=> "Get all resource",
             "data"=> $students
@@ -20,7 +27,34 @@ class StudentController extends Controller
         return response()->json($data, 200);
     }
 
-    public function store(Request $request){
+    public function show($id){
+        $student = Student::find($id);
+
+        if (!$student) {
+            return response()->json(['message' => 'Student not found'], 404);
+        }
+
+        $data =[
+            'message'=>'Show detail resource',
+            'data'=>$student
+        ];
+        return response()->json($data, 200);
+
+
+    }
+        
+    
+
+    //Store untuk menambahkan data siswa
+    public function store(Request $request)
+    {
+        //validasi data request
+        $request->validate( [
+            "nama"=>"required",          
+            "nim"=>"required",         
+            "email"=>"required|email",           
+            "jurusan"=>"required"
+        ]);
         $input = [
             'nama'=>$request->nama,
             'nim'=>$request->nim,
@@ -44,13 +78,12 @@ class StudentController extends Controller
             return response()->json(['message' => 'Student not found'], 404);
         }
 
-        $student->nama = $request->input('nama', $student->nama);
-        $student->nim = $request->input('nim', $student->nim);
-        $student->email = $request->input('email', $student->email);
-        $student->jurusan = $request->input('jurusan', $student->jurusan);
-
-        $student->save();
-
+        $student->update([
+            'nama' => $request->nama ?? $student->nama,
+            'nim' => $request-> nim ?? $student->nim,
+            'email' => $request-> email ?? $student->email,
+            'jurusan' => $request->jurusan ?? $student->jurusan
+        ]);
         $data = [
             'message' => 'Student is updated successfully',
             'data' => $student,

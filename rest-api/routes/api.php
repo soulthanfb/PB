@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\StudentController;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -46,5 +47,9 @@ Route::post('/students', [StudentController::class, "store"]);
 // Route untuk mengupdate data siswa
 Route::put('/students/{id}', [StudentController::class, "update"]);
 
-// Route untuk menghapus data hewan
+// Route untuk menghapus data siswa
 Route::delete('/students/{id}', [StudentController::class, "destroy"]);
+
+//----------------------------------------------//
+//Route untuk mendapatkan detail student
+Route::get("student/{id}", [StudentController::class, "show"]);
