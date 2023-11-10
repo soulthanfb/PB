@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnimalController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -21,6 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Route untuk membuat kelompok middleware atau mendapatkan token
+Route::middleware(['auth:sanctum'])->group(function(){
+
+//-------------------------------------//
 // Route untuk menampilkan data hewan
 Route::get('/animals', [AnimalController::class, "index"]);
 
@@ -33,9 +38,6 @@ Route::put('/animals/{id}', [AnimalController::class, "update"]);
 // Route untuk menghapus data hewan
 Route::delete('/animals/{id}', [AnimalController::class, "destroy"]);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 //------------------------------------//
 //Route untuk menampilkan semua siswa
@@ -53,3 +55,9 @@ Route::delete('/students/{id}', [StudentController::class, "destroy"]);
 //----------------------------------------------//
 //Route untuk mendapatkan detail student
 Route::get("student/{id}", [StudentController::class, "show"]);
+});
+
+//------------------------------------------//
+//Route untuk membuat register dan login
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, "login"]);
