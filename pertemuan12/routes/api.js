@@ -9,7 +9,7 @@ const router = express.Router();
 
 //Testing
 router.get("/", (req, res) => {
-  res.send("Hello Express");
+  res.send("Hello Soulthan");
 });
 
 //Buat Routing Student

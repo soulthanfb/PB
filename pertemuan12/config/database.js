@@ -4,18 +4,21 @@ const mysql = require("mysql")
 // import dotenv
 require("dotenv").config();
 
+//destructing process
+const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_DATABASE } = process.env;
 // make connection
 const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
+    host: DB_HOST,
+    port: DB_PORT,
+    user: DB_USERNAME,
+    password: DB_PASSWORD,
+    database: DB_DATABASE,
 });
 
 // connect to database
 db.connect(function (err) {
     if (err) {
-        console.log(`koneksi error: ${err}`);
+        console.log("Error connecting database:", err.stack);
         return;
     } else {
         console.log("koneksi berhasil");
